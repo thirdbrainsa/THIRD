@@ -13,10 +13,17 @@ $SOCKET_URL="tcp://".$_DAEMON_IP.":".$_DAEMON_PORT;
 
 $server = stream_socket_server($SOCKET_URL);
 
+if (!($server))
+{
 
+
+}
+else
+{
 $loop=TRUE;
-$socket=stream_socket_accept($server);
-while ($loop)
+//$socket=stream_socket_accept($server);
+while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
+ 
 {
 
 	$data="";
@@ -24,8 +31,8 @@ while ($loop)
 	// Accept socket connection
 	//$socket=stream_socket_accept($server);
 
-	// Get the first 1500 CAR sent by the client
-	$data=stream_socket_recvfrom($socket, 1500);
+	// Get the first 1024 CAR sent by the client
+	$data=fread($socket,1024); // stream_socket_recvfrom($socket, 1500);
 
 	if ($data!="")
 		{
@@ -52,4 +59,5 @@ while ($loop)
 }
 fclose($socket);
 fclose($server);
+}
 ?>
