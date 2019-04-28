@@ -2,6 +2,7 @@
 #### THIRD - SERVER WHICH IS ACCEPTING THE NODES CONNECTION --- ALL IS STARTING HERE --- #####
 
 include("../config.php");
+include("../function.php");
 
 #### DAEMON - SERVER - ACCEPTING INCOMING CONNECTION FROM OTHERS NODES
 
@@ -14,23 +15,41 @@ $server = stream_socket_server($SOCKET_URL);
 
 
 $loop=TRUE;
-
+$socket=stream_socket_accept($server);
 while ($loop)
 {
+
+	$data="";
+
 	// Accept socket connection
-	$socket=stream_socket_accept($server);
+	//$socket=stream_socket_accept($server);
 
 	// Get the first 1500 CAR sent by the client
 	$data=stream_socket_recvfrom($socket, 1500);
 
 	if ($data!="")
 		{
-			print ($data.'\n');
+			printf ($data.'|');
 			if (trim($data)=="exit") {$loop=FALSE;}
 		}
-	// close connection after accepted the node's connection	
-	fclose($socket);
-}
 
+	$dataF=$data[0];
+
+	switch ($dataF) 
+			{
+			case"A":
+				printf(" - > A,");
+				createAddress($data);
+			
+			break;
+			
+
+
+			}
+	// close connection after accepted the node's connection	
+
+	//fclose($socket);
+}
+fclose($socket);
 fclose($server);
 ?>
