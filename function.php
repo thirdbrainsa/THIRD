@@ -19,7 +19,7 @@ function sendMessage($_SOCKET,$_MESSAGE)
 
 $_FEEDBACK=array("");
 $_FEEDBACK['error']="";
-$_FEEDBACK['string']="";
+$_FEEDBACK['answer']="";
 
 $fp = @stream_socket_client("tcp://".$_SOCKET, $errno, $errstr, 30);
 
@@ -35,12 +35,11 @@ else
 
     fwrite($fp, $_MESSAGE);
 
-    while (!feof($fp))	 {
-     				   $_FEEDBACK['string'].=fgets($fp, 1024);
-   			 }
-    	fclose($fp);
+    
+    
+    $_FEEDBACK['answer']=fread($fp, 255);
+  
 	}
-
 return $_FEEDBACK;
 
 }
