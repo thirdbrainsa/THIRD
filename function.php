@@ -2,6 +2,51 @@
 
 /*
 *
+*  LOGIN WITH ADDRESS
+*  
+*
+*/
+
+function loginWithAddress($_DATA)
+
+{
+	$_P=explode(" ",$_DATA);
+
+	$_P1=$_P[1];
+
+	$_P2=$_P[2];
+
+	$data=@file_get_contents("../address/".$_P1,"r");
+	
+	if ($data==$_P2)
+
+		{
+
+			$_FEEDBACK="OK";
+
+			$_LOG=$_P1." - Login successfull";
+
+			logMessage($_LOG);
+		}
+
+		else
+		
+		{
+
+			$_FEEDBACK="NO";
+
+			$_LOG=$_P1." - Login failed";
+
+			logMessage($_LOG)
+
+		}
+
+return $_FEEDBACK;
+
+}
+
+/*
+*
 * BroadCast Message to Nodes in the $_LIST
 *
 */

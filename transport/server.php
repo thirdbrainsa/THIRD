@@ -1,9 +1,10 @@
 <?php
-#### TCP COMMUNICATION FRAMEWORK
+#### TCP COMMUNICATION FRAMEWORK WITH THE NETWORK
 
+#### A COMMUNICATION TO THE NETWORK FOLLOW THE SAME PROTOCOLE <A LETTER or a NUMBER THEN A to Z, 0 to 9 AND AFTER THE <THE DATA>
 #### A : CREATE A NEW ADDRESS - INITIAL BROADCAST , SYNTAX : A <YOUR PASSWORD MD5>, RETURN : YOUR NEW ADDRESS 
 #### B : BROADCAST NEW ADDRESS TO NETWORK, B <ADDRESS TO BROADCAST> <PASSWORD MD5>, RETURN : NO RETURN
-####
+#### C : LOGIN WITH <ADDRESS> <PASSWORD>, RETURN : OK / NOT OK
 
 #### THIRD - SERVER WHICH IS ACCEPTING THE NODES CONNECTION --- ALL IS STARTING HERE --- #####
 
@@ -78,6 +79,21 @@ while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
 			       $return=mirrorAddress($data);
 				
 			
+			// 
+
+			case "C":
+
+			      printf(* ----> C <---- \n");
+
+			      $return=loginWithAddress($data);
+			   
+			      if ($return=="OK")
+
+						{
+
+							
+
+						}
 
 			break;
 
