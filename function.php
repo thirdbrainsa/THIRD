@@ -69,6 +69,28 @@ function createAddress($_DATA)
 
 }
 
+
+/*
+*
+*  Mirror locally address received braodcasted
+*
+*/
+
+function mirrorAddress($_DATA)
+{
+
+     $_P=explode(" ",$_DATA);
+
+     $_A=$_P[1];
+
+     $_B=$_P[2];
+
+     $file=fopen("../address/".$_A,"w");
+     fputs($file,$_B);
+     fclose($file);
+}
+
+
 /*
 *
 *   Send a TCP message to a $_SOCKET

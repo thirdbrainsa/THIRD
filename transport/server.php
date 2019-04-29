@@ -27,7 +27,8 @@ if (!($server))
 else
 {
 $loop=TRUE;
-//$socket=stream_socket_accept($server);
+
+
 while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
  
 {
@@ -35,10 +36,11 @@ while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
 	$data="";
 
 	// Accept socket connection
-	//$socket=stream_socket_accept($server);
 
 	// Get the first 1024 CAR sent by the client
-	$data=fread($socket,1024); // stream_socket_recvfrom($socket, 1500);
+
+	$data=fread($socket,1024); 
+
 
 	if ($data!="")
 		{
@@ -50,6 +52,8 @@ while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
 
 	switch ($dataF) 
 			{
+			
+			// receive first broadcast to create a new address
 
 			case"A":
 
@@ -59,18 +63,32 @@ while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
 				
 				$bMessage="B ".$return['addrr']." ".$return['password'];			
 				
+				// broadacast to nodes of the network
+
 				$returnB=broadCastMessage($bMessage,$_DAEMON_HOST);			
 
 			break;
 			
+			// receive broadcasting alert about a new address to be locally mirrored.
+
+			case "B":
+
+			       printf(" ---> B <---- \n");
+				
+			       $return=mirrorAddress($data);
+				
+			
+
+			break;
 
 
 			}
 	// close connection after accepted the node's connection	
 
-	//fclose($socket);
 }
-fclose($socket);
+
+if (isset($socket)) {fclose($socket);}
+
 fclose($server);
 }
 ?>
