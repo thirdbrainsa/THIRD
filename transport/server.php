@@ -1,4 +1,10 @@
 <?php
+#### TCP COMMUNICATION FRAMEWORK
+
+#### A : CREATE A NEW ADDRESS - INITIAL BROADCAST , SYNTAX : A <YOUR PASSWORD MD5>, RETURN : YOUR NEW ADDRESS 
+#### B : BROADCAST NEW ADDRESS TO NETWORK, B <ADDRESS TO BROADCAST> <PASSWORD MD5>, RETURN : NO RETURN
+####
+
 #### THIRD - SERVER WHICH IS ACCEPTING THE NODES CONNECTION --- ALL IS STARTING HERE --- #####
 
 include("../config.php");
@@ -44,10 +50,17 @@ while ($socket = @stream_socket_accept($server,$_nbSecondsIdle))
 
 	switch ($dataF) 
 			{
+
 			case"A":
-				printf(" - > A,");
-				createAddress($data);
-			
+
+				printf(" ---> A < ---\n");
+
+				$return=createAddress($data);
+				
+				$bMessage="B ".$return['addrr']." ".$return['password'];			
+				
+				$returnB=broadCastMessage($bMessage,$_DAEMON_HOST);			
+
 			break;
 			
 
